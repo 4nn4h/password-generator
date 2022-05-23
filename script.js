@@ -19,19 +19,19 @@ function generatePassword() {
   var critSel = [
     {
       name: 'lowercase letters',
-      pool: 'abcdefghijklmnopqrstuvwxyz'
+      pool: 'abcdefghijklmnopqrstuvwxyz',
     },
     {
       name: 'uppercase letters',
-      pool: ''
+      pool: '',
     },
     {
       name: 'numbers',
-      pool: '0123456789'
+      pool: '0123456789',
     },
     {
       name: 'special characters',
-      pool: ' !"#$%&()*+,-./:;<=>?@[]^_`{|}~\\' + "'"
+      pool: ' !"#$%&()*+,-./:;<=>?@[]^_`{|}~\\' + "'",
     }
   ];
 
@@ -42,15 +42,29 @@ function generatePassword() {
 
   //loop to get criteria for characters
   var comPool = '';
-  for (var i = 0; i < critSel.length; i++) {
-    //get input for character type
-    var optSel = window.confirm('Do you need ' + critSel[i].name + '?');
-    //check for confirm and add characters needed for final output
-    if (optSel == true) {
-      comPool += (critSel[i].pool);
-      console.log("You'll need " + critSel[i].name + '.');
+  do {
+    //set check counter
+    var critSta = 0;
+
+    for (var i = 0; i < critSel.length; i++) {
+      //get input for character type
+      critSel[i].state = window.confirm('Do you need ' + critSel[i].name + '?');
+
+      //check for confirm and add characters needed for final output
+      if (critSel[i].state == true) {
+        comPool += (critSel[i].pool);
+        console.log("You'll need " + critSel[i].name + '.');
+      }
+      //add to check counter
+      else {
+        critSta += 1;
+      }
+      //alert for no character criteria selected
+      if (critSta == 4) {
+        window.alert('At least one character type is needed to make this password. Try again.');
+      }
     }
-  }
+  } while (critSta == 4)
 
   //loop to output randomized password
   var password = '';
